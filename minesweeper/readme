@@ -1,0 +1,5 @@
+A minesweep game with auto-solution. (Auto solution algorithm may need to be imporved).
+When you start, you will face too options: level and paintstyle. Different paintstyle gives you different impressions.
+
+Note: opencv need to be installed before compiling.
+Compile environment: Visual Studio. (Gcc should be OK, but I haven't tried)
