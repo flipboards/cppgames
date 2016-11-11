@@ -76,11 +76,11 @@ int mineMap::Open(lattice* Lattice){
 int mineMap::FastOpen(lattice* Lattice){
 	if(Lattice->state!=STATE_OPENED)return 0;
 
-	int count=0;//Êµ¼ÊÀ×Êı
+	int count=0;//å®é™…é›·æ•°
 	for each(lattice* neighbour in Lattice->neighbours){
-		if(neighbour->state==STATE_MARKED)count++;	//¼ÆËãÖÜÎ§Ã»¿ª¹ıÀ×µÄ¸öÊı
+		if(neighbour->state==STATE_MARKED)count++;	//è®¡ç®—å‘¨å›´æ²¡å¼€è¿‡é›·çš„ä¸ªæ•°
 	}
-	if(count != Lattice->getlabel())return 0;			//ÅĞ¶ÏÒª¿ªµÄÀ×ÊıÄ¿ÊÇ·ñµÈÓÚ±ê¼ÇµÄ¸öÊı
+	if(count != Lattice->getlabel())return 0;			//åˆ¤æ–­è¦å¼€çš„é›·æ•°ç›®æ˜¯å¦ç­‰äºæ ‡è®°çš„ä¸ªæ•°
 	
 	for each(lattice* neighbour in Lattice->neighbours){
 		if(neighbour->state==STATE_CLOSED)this->Open(neighbour);
@@ -253,11 +253,11 @@ solveMap::~solveMap(){
 	delete nbopen;
 }
 
-//É¨Ãè»ù±¾Êı¾İ£¬¾ö¶¨ÊÇ·ñĞèÒª´ò¿ª
-void solveMap::scan()	//¸´ÔÓ¶ÈO(n)*nb
+//æ‰«æåŸºæœ¬æ•°æ®ï¼Œå†³å®šæ˜¯å¦éœ€è¦æ‰“å¼€
+void solveMap::scan()	//å¤æ‚åº¦O(n)*nb
 {
 	for(int n = 0;n < mapsize; n++){
-		//É¸Ñ¡³öÖ®Ç°Î´´¦ÀíµÄ£¬´ò¿ªµÄ¸ñ×Ó
+		//ç­›é€‰å‡ºä¹‹å‰æœªå¤„ç†çš„ï¼Œæ‰“å¼€çš„æ ¼å­
 		if(nbleft[n] > 0){
 			
 			mineleft[n] = m_map->m_lattices[n].getlabel();
@@ -275,8 +275,8 @@ void solveMap::scan()	//¸´ÔÓ¶ÈO(n)*nb
 	}
 	return;
 }
-//°ÑÏÔ¶øÒ×¼ûµÄ¸ñ×Ó´ò¿ª
-int solveMap::justOpen()	//¸´ÔÓ¶ÈO(n)
+//æŠŠæ˜¾è€Œæ˜“è§çš„æ ¼å­æ‰“å¼€
+int solveMap::justOpen()	//å¤æ‚åº¦O(n)
 {
 	int opennumber = 0;
 
@@ -298,7 +298,7 @@ int solveMap::justOpen()	//¸´ÔÓ¶ÈO(n)
 	}
 	return opennumber;
 }
-//¾Ö²¿¸ÅÂÊ¼ÆËã£¬Èç1-2-1ÕâÖÖ	(DFS)
+//å±€éƒ¨æ¦‚ç‡è®¡ç®—ï¼Œå¦‚1-2-1è¿™ç§	(DFS)
 int solveMap::getnbdetail(int index,vector<lattice*>& closednb,vector<lattice*>& openednb){
 
 	for each(lattice* neighbour in m_map->m_lattices[index].neighbours){
@@ -310,17 +310,17 @@ int solveMap::getnbdetail(int index,vector<lattice*>& closednb,vector<lattice*>&
 	}
 	return openednb.size();
 }
-int solveMap::microProb(){	//¸´ÔÓ¶ÈO(n)*2^nb
+int solveMap::microProb(){	//å¤æ‚åº¦O(n)*2^nb
 
 	int solvenumber = 0;
 	for(int n = 0;n < mapsize; n++){
 
 		if(nbleft[n] >0 && m_map->m_lattices[n].state == STATE_OPENED){
 
-			vector<lattice*> openednb, closednb;			//¿ª¹ıµÄ¸ñ×ÓºÍÃ»¿ªµÄ¸ñ×Ó,¶¼ÊÇlattice*
+			vector<lattice*> openednb, closednb;			//å¼€è¿‡çš„æ ¼å­å’Œæ²¡å¼€çš„æ ¼å­,éƒ½æ˜¯lattice*
 			if(!getnbdetail(n,closednb,openednb))continue;
 
-			//Éú³ÉÏà¹ØĞÔ¾ØÕó get common neighbours
+			//ç”Ÿæˆç›¸å…³æ€§çŸ©é˜µ get common neighbours
 			matrix covList(openednb.size(),closednb.size());
 			vector<symbol> symbols(openednb.size(),le);
 			
@@ -339,7 +339,7 @@ int solveMap::microProb(){	//¸´ÔÓ¶ÈO(n)*2^nb
 				if(containmark == nbleft[openednb[i] - m_map->m_lattices]) symbols[i] = symbol::equal;
 			}
 
-			//½â²»¶¨·½³Ì×é
+			//è§£ä¸å®šæ–¹ç¨‹ç»„
 			vector<int> result(closednb.size(),0);
 			vector<int> restrict;
 			for(unsigned int i = 0; i < openednb.size(); i++){
@@ -348,13 +348,13 @@ int solveMap::microProb(){	//¸´ÔÓ¶ÈO(n)*2^nb
 
 			int cnt_result = intProgram(covList,restrict,result,symbols);
 			
-			//¼¤¶¯ÈËĞÄµÄÊ±¿Ì¡­¡­
+			//æ¿€åŠ¨äººå¿ƒçš„æ—¶åˆ»â€¦â€¦
 			for(unsigned int i=0; i < result.size(); i++){
-				if(result[i] == cnt_result){		//ËùÓĞÇé¿ö¶¼Îª1£¬±ê¼Ç
+				if(result[i] == cnt_result){		//æ‰€æœ‰æƒ…å†µéƒ½ä¸º1ï¼Œæ ‡è®°
 					m_map->Mark(closednb[i]);
 					solvenumber ++;
 				}
-				else if(result[i] == 0){			//ËùÓĞÇé¿ö¶¼Ã»ÓĞ£¬´ò¿ª
+				else if(result[i] == 0){			//æ‰€æœ‰æƒ…å†µéƒ½æ²¡æœ‰ï¼Œæ‰“å¼€
 					m_map->Open(closednb[i]);
 					solvenumber ++;
 				}
@@ -364,22 +364,22 @@ int solveMap::microProb(){	//¸´ÔÓ¶ÈO(n)*2^nb
 	}
 	return solvenumber;
 }
-//Æ¬×´¸ÅÂÊ¼ÆËã£¬²¢Éú³É¸ÅÂÊ¾ØÕó
+//ç‰‡çŠ¶æ¦‚ç‡è®¡ç®—ï¼Œå¹¶ç”Ÿæˆæ¦‚ç‡çŸ©é˜µ
 int solveMap::pieceDetect(lattice* me, vector<lattice*>& closedpc, vector<lattice*>& openedpc, matrix& matcov, vector<bool>& record)
 {
 	
-	vector<int> covline(closedpc.size(),0);		//×¼±¸·Åµ½¾ØÕóÖĞµÄÒ»ĞĞ
+	vector<int> covline(closedpc.size(),0);		//å‡†å¤‡æ”¾åˆ°çŸ©é˜µä¸­çš„ä¸€è¡Œ
 
 	bool includemark = false;
 	for each(lattice* nb in me->neighbours) {
 		if (nb->state == STATE_CLOSED) {
 			vector<lattice*>::iterator it_nb = find(closedpc.begin(), closedpc.end(), nb);
 
-			if (it_nb == closedpc.end()) {		//ÕÒ²»µ½£¬·Å½øÈ¥
+			if (it_nb == closedpc.end()) {		//æ‰¾ä¸åˆ°ï¼Œæ”¾è¿›å»
 				closedpc.push_back(nb);
 				covline.push_back(1);
 			}
-			else {								//ÕÒµ½ÁË£¬±ê¼Ç
+			else {								//æ‰¾åˆ°äº†ï¼Œæ ‡è®°
 				covline[it_nb - closedpc.begin] = 1;
 				includemark = true;
 			}
@@ -391,7 +391,7 @@ int solveMap::pieceDetect(lattice* me, vector<lattice*>& closedpc, vector<lattic
 		}
 	}
 
-	//ÒªÊÇ·ûºÏÌõ¼ş¾Í·ÅÈë¾ØÕó
+	//è¦æ˜¯ç¬¦åˆæ¡ä»¶å°±æ”¾å…¥çŸ©é˜µ
 	if (includemark) {
 		openedpc.push_back(me);
 		matcov.addline(covline);
@@ -410,17 +410,17 @@ int solveMap::pieceProb()
 			vector<lattice*> closedpiece, openedpiece;
 			pieceDetect(m_map->m_lattices + n, closedpiece, openedpiece, cov, record);
 
-			//Éú³ÉÏŞÖÆÏòÁ¿
+			//ç”Ÿæˆé™åˆ¶å‘é‡
 			vector<int> restrict;
 			for (vector<lattice*>::iterator op = openedpiece.begin; op<openedpiece.end();op++) {
 				restrict.push_back(mineleft[*op - m_map->m_lattices]);
 			}
 
-			//¼ÆËã¸ÅÂÊ
+			//è®¡ç®—æ¦‚ç‡
 			vector<float> result;
 			floatProgram(cov, restrict, result);
 
-			//¸ÅÂÊÊµÏÖ
+			//æ¦‚ç‡å®ç°
 			for (int i = 0; i < result.size(); i++) {
 				P[closedpiece[i] - m_map->m_lattices] = result[i];
 			}
@@ -428,13 +428,13 @@ int solveMap::pieceProb()
 	}
 	return 1;
 }
-//¸ù¾İÊ£ÏÂÀ×¶àÉÙÅĞ¶Ï¸ÅÂÊ
-int solveMap::finalDetect(){	//¸´ÔÓ¶ÈO(n)
+//æ ¹æ®å‰©ä¸‹é›·å¤šå°‘åˆ¤æ–­æ¦‚ç‡
+int solveMap::finalDetect(){	//å¤æ‚åº¦O(n)
 	
 	int opennumber = 0;
 
-	int relative_cnt = 0;			//ÓĞ¹ØµÄ
-	vector<lattice*> remain;		//Ê£ÏÂµÄ
+	int relative_cnt = 0;			//æœ‰å…³çš„
+	vector<lattice*> remain;		//å‰©ä¸‹çš„
 	for (int n = 0; n < mapsize; n++) {
 		if (m_map->m_lattices[n].state == STATE_CLOSED) {
 			if (nbopen[n] > 0)relative_cnt++;
