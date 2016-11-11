@@ -15,7 +15,7 @@ void Renew(){
 
 	Map->Draw();
 	if(Map->m_mineleft > 0)
-		cout<<"还剩"<<Map->m_mineleft<<"个雷。 已用时"<<int((clock() - starttime)/1000)<<"s\r";
+		cout<<"Still "<<Map->m_mineleft<<" mines. Time used: "<<int((clock() - starttime)/1000)<<"s\r";
 }
 void Win(){
 	
@@ -24,14 +24,14 @@ void Win(){
 	destroyWindow(window);
 
 	if(Map->GameState() == M_WIN){
-		cout<<"\n你赢了！(^w^)\n";
+		cout<<"\nYou win! (^w^)\n";
 		ofstream file("record.txt",ios::app);
 		file<<date.tm_year+1900<<'/'<<(date.tm_mon+1)<<'/'<<date.tm_mday<<'\t'<<level<<'\t'<<int((clock()-starttime)/1000)<<endl;
 		file.close();
 		
 	}
 	else if(Map->GameState() ==M_LOSE){
-		cout<<"\n不好意思，你输了。('_')再来一次？\n";
+		cout<<"\nSorry, you lose.('_') Again?\n";
 	}
 }
 void click(int mouseEvent,int x,int y,int flags,void* param){
@@ -81,13 +81,13 @@ int main(){
 levelchoose:
 		if(clicktimes !=0){
 			char choice;
-			cout<<"接着上次的选项？y/n";cin>>choice;
+			cout<<"Use the last options?y/n";cin>>choice;
 			if(choice == 'y')goto chooseover;
 			else if(choice != 'n')goto levelchoose;
 		}
 
-		cout<<"难度选择：1-初级(10x10)；2-中级(30x30)；3-高级(100x30):";cin>>level;
-		cout<<"画风：1~6 :";cin>>drawflag;
+		cout<<"Level: 1-basic(10x10)；2-middle(30x30)；3-difficult(100x30):";cin>>level;
+		cout<<"Paintstyle: 1~6 :";cin>>drawflag;
 
 		if(level==1){mapWidth = 10; mapHeight = 10; mineNumber = 10;}
 		else if (level == 2){mapWidth = 16; mapHeight = 16; mineNumber = 40;}
@@ -100,7 +100,8 @@ chooseover:
 		drawer.Bind(Map,window,wWidth,wHeight,(drawflag-1)/2,drawflag%2);
 
 		Map->m_drawer = &drawer;
-		clicktimes = 0;		starttime = 0;
+		clicktimes = 0;		
+		starttime = 0;
 
 		starttime = clock();
 		namedWindow(window,WINDOW_NORMAL);
