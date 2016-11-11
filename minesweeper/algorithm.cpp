@@ -52,17 +52,17 @@ int operator*(const vector<int>& a,const vector<int>& b){
 int intProgram(matrix A,vector<int> B,vector<int>& X,vector<symbol> symbols){
 	
 	int cnt_result = 0;
-	for(unsigned int cnt = 0; cnt < (unsigned)pow(2, X.size()); cnt++){		//´«ËµÖĞµÄnp complete
+	for(unsigned int cnt = 0; cnt < (unsigned)pow(2, X.size()); cnt++){		//ä¼ è¯´ä¸­çš„np complete
 		vector<int> x;
-		dectobinlist(cnt,X.size(),x);				//½«ËùÓĞµÄÇé¿öÉú³É¶ÔÓ¦µÄ0-1Êı×é
+		dectobinlist(cnt,X.size(),x);				//å°†æ‰€æœ‰çš„æƒ…å†µç”Ÿæˆå¯¹åº”çš„0-1æ•°ç»„
 		vector<int> r = A*x;
 
 		bool ok = true;
-		for(unsigned int i = 0; i < B.size(); i++){			//¼ìÑéÊÇ·ñÂú×ã²»µÈÊ½£¬ĞèÒªÂú×ãËùÓĞ²ÅÄÜÍ¨¹ı
+		for(unsigned int i = 0; i < B.size(); i++){			//æ£€éªŒæ˜¯å¦æ»¡è¶³ä¸ç­‰å¼ï¼Œéœ€è¦æ»¡è¶³æ‰€æœ‰æ‰èƒ½é€šè¿‡
 			if(symbols[i] == symbol::le)ok&=(r[i] <= B[i]);
 			else if(symbols[i] == symbol::equal)ok&=(r[i] == B[i]);
 		}
-		if(ok){												//Í³¼Æ
+		if(ok){												//ç»Ÿè®¡
 			X += x;
 			cnt_result ++;
 		}
