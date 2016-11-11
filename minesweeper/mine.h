@@ -46,9 +46,9 @@ private:
 	lattice* getLattice(int x,int y)const;
 	vector<lattice*> setNeighbour(lattice* me);//The points of the lattice beside
 
-	int m_minenumber;	//×ÜÀ×ÊıÄ¿
-	int m_opennumber;	//¿ªÀ×µÄ¸öÊı
-	int m_lose;			//µã´íÁË
+	int m_minenumber;	//æ€»é›·æ•°ç›®
+	int m_opennumber;	//å¼€é›·çš„ä¸ªæ•°
+	int m_lose;			//ç‚¹é”™äº†
 
 	int Open(lattice* Lattice);
 	int Mark(lattice* Lattice);
@@ -73,10 +73,10 @@ class solveMap{
 	mineMap* m_map;
 	int mapsize;
 
-	int* mineleft;		//Í³¼Æ»¹²î¼¸¸öÀ×
-	int* nbleft;		//Í³¼Æ»¹ÓĞ¼¸¸öÀ×Ã»¿ª, nbleft >= mineleft£¬ÓÃÓÚÅĞ¶ÏÇé¿öµÄºËĞÄÊı¾İ
-	int* nbopen;		//Í³¼Æ¿ªÁË¼¸¸öÀ×£¬nb - nbopen >= nbleft
-	float* P;			//¸ÅÂÊ¾ØÕóÉÏÏßÀ²£¡
+	int* mineleft;		//ç»Ÿè®¡è¿˜å·®å‡ ä¸ªé›·
+	int* nbleft;		//ç»Ÿè®¡è¿˜æœ‰å‡ ä¸ªé›·æ²¡å¼€, nbleft >= mineleftï¼Œç”¨äºåˆ¤æ–­æƒ…å†µçš„æ ¸å¿ƒæ•°æ®
+	int* nbopen;		//ç»Ÿè®¡å¼€äº†å‡ ä¸ªé›·ï¼Œnb - nbopen >= nbleft
+	float* P;			//æ¦‚ç‡çŸ©é˜µä¸Šçº¿å•¦ï¼
 
 	void scan();			//counting lattice information
 	int justOpen();		//opening easy cases
